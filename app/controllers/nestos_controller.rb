@@ -1,0 +1,2 @@
+class NestosController < ApplicationController
+end

@@ -1,0 +1,8 @@
+class CardtablesController < ApplicationController
+  def show
+    @ct  = Cardtables.find(params[:id])
+  end
+  def new 
+    @ct = Cardtable.new
+  end
+end

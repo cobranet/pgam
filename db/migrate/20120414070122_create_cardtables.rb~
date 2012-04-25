@@ -1,0 +1,12 @@
+class CreateCardtables < ActiveRecord::Migration
+  def change
+    create_table :cardtables do |t|
+      t.column :card, :string
+      t.column :x, :number
+      t.column :y, :number
+      t.column :deck, :string
+      t.column :card_prop, :string
+      t.timestamps
+    end
+  end
+end

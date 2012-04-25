@@ -1,0 +1,29 @@
+// Place all the styles related to the cardtables controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+$main-color: #1E7B12;
+
+body { 
+  margin: 0;
+  padding: 0;
+  background-color:$main-color;
+  font-size: 14px;
+  font-family: $verdana;
+}
+#nav {
+  padding: 20px;
+  background-color: gold;
+}
+.card {
+  position: absolute;
+}
+.hide { 
+  visibility: hidden;
+}
+#sto {
+  border: solid black 2px;
+  margin-left: 40px;
+  width: 800px;
+  height: 400px;
+  position: relative;
+}

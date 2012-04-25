@@ -1,0 +1,21 @@
+<h1>table</h1>
+<div id="nav">
+<%= link_to_function("left_play","P.play_from_others('left','cKC')") %>
+<%= link_to_function("right_play","P.play_from_others('right','cTC')") %>
+<%= link_to_function("remove","P.clear_table()") %>
+<%= link_to_function("trick_to_player","P.trick_to_player('left')") %>
+</div>
+<div id="allcards">
+<% @values.each do |v| %>
+  <% @colors.each do |c| %>
+  <%= tag("div", :id => "c#{v}#{c}", :class => "hide card") %>
+  <%= image_tag  "#{v}#{c}.png" -%>
+  </div>
+<% end %>
+<% end %>
+<%= tag("div", :id => "backh", :class => "hide card") %>
+<%= image_tag  "b1fh.png" -%>
+</div>
+</div>  
+<div id="sto">
+</div>
