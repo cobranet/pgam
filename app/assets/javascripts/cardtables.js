@@ -1,11 +1,13 @@
 var P = {
     players: {   left: {   play: { x: 20, y: 40 },
 			   endpos: { x: 250, y: 100},
-			   card_num: 10
+			   card_num: 10,
+			   yoffset: 20
 		       },
 		 right: { play: { x: 680, y: 40 },
 			  endpos: { x: 475, y: 100},
-			  card_num:10
+			  card_num: 10,
+			  yoffset: 20,
 			},
 		 player: { play: { x: 400, y: 150 },
 			   deck_pos: {x: 40, y: 300}
@@ -162,7 +164,7 @@ var P = {
             c.removeClass("hide");
             c.addClass( other + "card");
             c.css('left',player.play.x);
-	    c.css('top', player.play.y + P.others.yoffset*i );
+	    c.css('top', player.play.y + player.yoffset*i );
 	    c.css('z-index',i);
 	    c.appendTo("#sto");
 	}
