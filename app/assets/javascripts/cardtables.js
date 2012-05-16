@@ -1,40 +1,53 @@
 var P = {
-    players: {   left: {   play: { x: 20, y: 40 },
+    cmd_array: [],
+    commands: {
+	play_right: function(card){
+	    play_from_others('right',card);
+	},
+	play_left: function(card){
+	    play_from_others('left',card)
+	}
+    }, 
+    players: {   left: {   play: { x: 20, y: 80 },
 			   endpos: { x: 250, y: 100},
 			   card_num: 10,
-			   yoffset: 20
+			   yoffset: 20,
+			   image_src: 0,
+			   image_pos : { x: 20, y: 10 },
+			   name : 'Levi'
+
 		       },
-		 right: { play: { x: 680, y: 40 },
+		 right: { play: { x: 680, y: 80 },
 			  endpos: { x: 475, y: 100},
 			  card_num: 10,
 			  yoffset: 20,
+			  image_src: 0,
+			  image_pos : { x: 680, y: 10 },
+			  name: 'Desni'
+
 			},
-		 player: { play: { x: 400, y: 150 },
-			   deck_pos: {x: 40, y: 300}
+		 player: { play: { x: 400, y: 350 },
+			   endpos: { x:400, y:150 },
+			   deck_pos: {x: 40, y: 300},
+			   xoffset: 30,
+			   image_src: 0,
+			   image_pos : { x: 150, y: 320 },
+			   name: 'Test player'
 			 }
                },
-    others: { yoffset : 20,
-	      left: { card_num: 10,
-		      x: 20,
-		      y: 40,
-		      ppos: { x: 20, y: 40},
-		      epos: { x: 250, y: 100}
-		    },
-	      right: { card_num: 10,
-		       x: 680,
-		       y: 40,
-		       ppos: { x: 680, y: 40},
-		       epos: { x: 475, y: 100}
-		     }
-	    },
     table_size : { w: 800, h: 400 },
     card_size: { w: 72, h: 96 },
     yselection_off: 30,
-    player_deck_x_off: 30,
     player_deck: [],
+    table_deck: { left: 0 ,
+		  right: 0,
+		  player: 0 },
     // set play players according table and card size
     init: function () {
         P.players.player.play.x = (P.table_size.w-P.card_size.w)/2;
+	P.show_image('left');
+	P.show_image('right');
+	P.show_image('player');
     },
     get_table: function () {
         return $('#table');
@@ -78,7 +91,7 @@ var P = {
 	P.set_player_deck_x();
 	for ( var i = 0; i < P.player_deck.length ; i++){
 	    c = $("#" + P.player_deck[i] + ".pcard");
-	    c.css('left',P.players.player.deck_pos.x+i*P.player_deck_x_off);
+	    c.css('left',P.players.player.deck_pos.x+i*P.players.player.xoffset );
 	}
     },
     show_card: function (str,x,y,z,cls) {
@@ -125,7 +138,7 @@ var P = {
     /* u zavisnosti od broja karata setuje P.player_deck_pos.x */
     set_player_deck_x: function (){
 	var s = P.player_deck.length;
-        var deck_w = P.card_size.w + P.player_deck_x_off*(s-1);
+        var deck_w = P.card_size.w + P.players.player.xoffset*(s-1);
         P.players.player.deck_pos.x =  (P.table_size.w - deck_w) / 2;   
     },
     /* returning jquery element of card from id from player cards */
@@ -143,7 +156,7 @@ var P = {
         P.set_player_deck_x();
 	for (var i =0; i< P.player_deck.length; i++){
 	    P.show_card( P.player_deck[i],
-			 P.players.player.deck_pos.x+i*P.player_deck_x_off,
+			 P.players.player.deck_pos.x+i*P.players.player.xoffset,
 			 P.players.player.deck_pos.y,
 			 i,
 		         "pcard");
@@ -171,12 +184,6 @@ var P = {
     },
     play_from_others: function (other,str){
 	var player = P.get_other(other);	
-/*	P.show_card( str,
-		     player.ppos.x,
-		     player.ppos.y,
-		     100,
-		     "playcard");	
-*/
 	P.show_card( str,
 		     player.play.x,
 		     player.play.y,
@@ -194,13 +201,31 @@ var P = {
 				   $(".playcard").remove();
 			       });
 	    
+    },
+    show_image: function(p){
+        
+	var img = "<img id='img_"+ p + "' src='" + P.players[p].image_src + "' class='pimage'  >";
+	
+	$('#sto').append(img);
+	$('#img_' + p ).css('left', P.players[p].image_pos.x).
+	                css('top',  P.players[p].image_pos.y).
+	                css('z-index',100);
+	
+    },
+    show_name: function(p){
+	var pnam = "<div id='pname_" + p + "'>" + P.players[p].name + "</div>"
+	$('#sto').appned(pnam);
+	$('#pname_' + p ).css('left', P.players[p].name_pos.x).
+	                  css('top',  P.players[p].name_pos.y).css('z-index',100);
     }
 }
 
 $(document).ready( function () { 
     P.player_deck = ["c7C","c9C","cAC","cAD","c8H",
 		     "c9H","cTH","cTS","cKS","cAS"]
-    
+    P.players.left.image_src = 'http://graph.facebook.com/1033662676/picture?type=square'
+    P.players.right.image_src = 'http://graph.facebook.com/1033662676/picture?type=square'
+    P.players.player.image_src = 'http://graph.facebook.com/1033662676/picture?type=square'
     P.init();
     P.show_other_deck('left');
     P.show_other_deck('right');

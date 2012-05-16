@@ -3,7 +3,9 @@
 <%= link_to_function("left_play","P.play_from_others('left','cKC')") %>
 <%= link_to_function("right_play","P.play_from_others('right','cTC')") %>
 <%= link_to_function("remove","P.clear_table()") %>
-<%= link_to_function("trick_to_player","P.trick_to_player('left')") %>
+<%= link_to_function("trick_to_player_left","P.trick_to_player('left')") %>
+<%= link_to_function("trick_to_player_right","P.trick_to_player('right')") %>
+<%= link_to_function("trick_to_player","P.trick_to_player('player')") %>
 </div>
 <div id="allcards">
 <% @values.each do |v| %>
