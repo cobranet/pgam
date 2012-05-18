@@ -1,4 +1,5 @@
 var P = {
+    all_players: [ 'left','right','player'],
     cmd_array: [],
     commands: {
 	play_right: function(card){
@@ -13,7 +14,9 @@ var P = {
 			   card_num: 10,
 			   yoffset: 20,
 			   image_src: 0,
-			   image_pos : { x: 20, y: 10 },
+			   image_pos: { x: 20, y: 10 },
+			   name_pos: { x:20, y: 60 },
+			   on_move_pos: { x:10,y:10},
 			   name : 'Levi'
 
 		       },
@@ -22,16 +25,20 @@ var P = {
 			  card_num: 10,
 			  yoffset: 20,
 			  image_src: 0,
-			  image_pos : { x: 680, y: 10 },
+			  image_pos: { x: 680, y: 10 },
+			  name_pos: { x:680, y: 60 },
+			  on_move_pos: { x:670,y: 10 },
 			  name: 'Desni'
 
 			},
-		 player: { play: { x: 400, y: 350 },
-			   endpos: { x:400, y:150 },
+		 player: { play: { x: 400, y: 150 },
+			   endpos: { x:200, y:150 },
 			   deck_pos: {x: 40, y: 300},
 			   xoffset: 30,
 			   image_src: 0,
-			   image_pos : { x: 150, y: 320 },
+			   image_pos: { x: 150, y: 320 },
+			   name_pos: { x: 150, y: 370 },
+			   on_move_pos: { x:140, y:320},
 			   name: 'Test player'
 			 }
                },
@@ -39,15 +46,18 @@ var P = {
     card_size: { w: 72, h: 96 },
     yselection_off: 30,
     player_deck: [],
+    on_move: 'none',
     table_deck: { left: 0 ,
 		  right: 0,
 		  player: 0 },
     // set play players according table and card size
     init: function () {
         P.players.player.play.x = (P.table_size.w-P.card_size.w)/2;
-	P.show_image('left');
-	P.show_image('right');
-	P.show_image('player');
+	for ( var i=0; i<P.all_players.length;i++) {
+	    P.show_image(P.all_players[i]);
+	    P.show_name(P.all_players[i]);
+	    P.show_on_move(100);
+	}
     },
     get_table: function () {
         return $('#table');
@@ -204,7 +214,7 @@ var P = {
     },
     show_image: function(p){
         
-	var img = "<img id='img_"+ p + "' src='" + P.players[p].image_src + "' class='pimage'  >";
+	var img = "<img id='img_"+ p + "' src='" + P.players[p].image_src + "' class='absolut'  >";
 	
 	$('#sto').append(img);
 	$('#img_' + p ).css('left', P.players[p].image_pos.x).
@@ -213,11 +223,22 @@ var P = {
 	
     },
     show_name: function(p){
-	var pnam = "<div id='pname_" + p + "'>" + P.players[p].name + "</div>"
-	$('#sto').appned(pnam);
+	var pnam = "<div id='pname_" + p + "' class='absolut'>" + P.players[p].name + "</div>"
+	$('#sto').append(pnam);
 	$('#pname_' + p ).css('left', P.players[p].name_pos.x).
 	                  css('top',  P.players[p].name_pos.y).css('z-index',100);
+    },
+    show_on_move: function(time){
+	var onmv = "<img id='onmv' src='/assets/onmv.png'>";
+	$('#sto').append(onmv);
+	
+	if ( P.on_move != 'none' ) {
+	    $('#onmv').css('left', P.players[P.on_move].on_move_pos.x).
+		       css('top', P.players[P.on_move].on_move_pos.y);
+	}
+	
     }
+  
 }
 
 $(document).ready( function () { 
@@ -231,4 +252,5 @@ $(document).ready( function () {
     P.show_other_deck('right');
     P.show_player_deck();
     P.set_playables(["c7C","c9C","cAC"]);
+    P.on_move = 'left';
 });
